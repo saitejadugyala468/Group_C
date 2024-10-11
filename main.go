@@ -21,6 +21,27 @@ type Task struct {
 var tasks []Task // In-memory task storage
 var nextID = 1   // Task ID counter
 
+
+// CreateTask handles the creation of a new task
+func createTask(w http.ResponseWriter, r *http.Request) {
+	var task Task
+	if err := json.NewDecoder(r.Body).Decode(&task); err !=null {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	task.ID = nextID
+	nextID++
+	task.Status = "pending"
+	tasks = append(tasks, task)
+	json.NewEncoder(w).Encode(tasks)
+}
+
+// GetTasks returns all the tasks
+func GetTasks(w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode(task)
+}
+
+
 // UpdateTask updates an existing task
 func updateTask(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
