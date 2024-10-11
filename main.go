@@ -2,7 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	// "log"
+	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -67,4 +68,16 @@ func deleteTask(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	router := mux.NewRouter()
+
+	// Route Handlers
+	router.HandleFunc("/tasks", CreateTask).Methods("POST")
+	router.HandleFunc("/tasks", GetTasks).Methods("GET")
+	router.HandleFunc("/tasks/{id}", GetTaskByID).Methods("GET")
+	router.HandleFunc("/tasks/{id}", UpdateTask).Methods("PUT")
+	router.HandleFunc("/tasks/{id}", DeleteTask).Methods("DELETE")
+
+	fmt.Println("Server is running on port 8080")
+	log.Fatal(http.ListenAndServe(":8080", router))
+
 }
