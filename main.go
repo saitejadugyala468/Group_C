@@ -21,11 +21,10 @@ type Task struct {
 var tasks []Task // In-memory task storage
 var nextID = 1   // Task ID counter
 
-
 // CreateTask handles the creation of a new task
 func createTask(w http.ResponseWriter, r *http.Request) {
 	var task Task
-	if err := json.NewDecoder(r.Body).Decode(&task); err !=null {
+	if err := json.NewDecoder(r.Body).Decode(&task); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -36,9 +35,9 @@ func createTask(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(tasks)
 }
 
-// GetTasks returns all the tasks
-func GetTasks(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(task)
+// getTasks returns all the tasks
+func getTasks(w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode(tasks)
 }
 
 // GetTaskByID retrieves a task by its ID
@@ -109,13 +108,13 @@ func main() {
 	router := mux.NewRouter()
 
 	// Route Handlers
-	router.HandleFunc("/tasks", CreateTask).Methods("POST")
-	router.HandleFunc("/tasks", GetTasks).Methods("GET")
-	router.HandleFunc("/tasks/{id}", GetTaskByID).Methods("GET")
-	router.HandleFunc("/tasks/{id}", UpdateTask).Methods("PUT")
-	router.HandleFunc("/tasks/{id}", DeleteTask).Methods("DELETE")
+	router.HandleFunc("/tasks", createTask).Methods("POST")
+	router.HandleFunc("/tasks", getTasks).Methods("GET")
+	router.HandleFunc("/tasks/{id}", getTaskByID).Methods("GET")
+	router.HandleFunc("/tasks/{id}", updateTask).Methods("PUT")
+	router.HandleFunc("/tasks/{id}", deleteTask).Methods("DELETE")
 
-	fmt.Println("Server is running on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	fmt.Println("Server is running on port 8089")
+	log.Fatal(http.ListenAndServe(":8089", router))
 
 }

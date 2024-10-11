@@ -26,7 +26,7 @@ type Task struct {
 
 1. Create (POST /tasks):- Create a new task by accepting a JSON payload with a title and description.
 2. Read:
-a. Get all tasks (GET /tasks): Return a list of all tasks.
+a. Get all tasks (GET /taks): Returnsa list of all tasks.
 b. Get a task by ID (GET /tasks/{id}): Return a specific task by its ID.
 3. Update (PUT /tasks/{id}): Update the title, description, or status of an existing task.
 4. Delete (DELETE /tasks/{id}): Delete a task by its ID.
