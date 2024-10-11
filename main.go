@@ -41,6 +41,23 @@ func GetTasks(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(task)
 }
 
+// GetTaskByID retrieves a task by its ID
+func getTaskByID(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+	if err != nil {
+		http.Error(w, "Invalid task ID", http.StatusBadRequest)
+		return
+	}
+
+	for _, task := range tasks {
+		if task.ID == id {
+			json.NewEncoder(w).Encode(task)
+			return
+		}
+	}
+	http.Error(w, "Task not found", http.StatusNotFound)
+}
 
 // UpdateTask updates an existing task
 func updateTask(w http.ResponseWriter, r *http.Request) {
